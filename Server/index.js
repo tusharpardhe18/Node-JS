@@ -48,13 +48,15 @@ function handleRequest(req, res) {
     console.log(myUrl);
 
     switch (myUrl.pathname) {
+        
         case '/':
             if (req.method === "GET") res.end("HomePage");   
             break;
+
         case '/about':
             res.end("About Page")
-            
             break;
+
         case '/signup':
             if (req.method === "GET") res.end("This is a signup page");
             else if(req.method === "POST"){
@@ -62,6 +64,7 @@ function handleRequest(req, res) {
                 res.end("Success")
             }
             break;
+
         case '/contacts':
             const qp = myUrl.query.mynumber;
             if (qp) {
@@ -70,6 +73,7 @@ function handleRequest(req, res) {
                 res.end("No contact number provided");
             }
             break;
+
         case '/search':
             const s = myUrl.query.search_query;
             if (s) {
@@ -78,6 +82,7 @@ function handleRequest(req, res) {
                 res.end("No search query provided");
             }
             break;
+            
         default:
             res.writeHead(404);
             res.end("Page Not Found");
