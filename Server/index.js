@@ -27,10 +27,13 @@
 
 const http = require('http');
 const fs = require('fs');
+const url = require('url')
 
 // Function to log requests
 function logRequest(req) {
+
     const log = `${Date.now()}: ${req.url} New Req Received\n`;
+
     fs.appendFile("log.txt", log, (err) => {
         if (err) {
             console.error("Error logging request:", err);
@@ -40,9 +43,13 @@ function logRequest(req) {
 
 // Function to handle requests
 function handleRequest(req, res) {
+
     logRequest(req);
 
-    switch (req.url) {
+    const myUrl = url.parse(req.url, true);
+    console.log(myUrl)
+
+    switch (myUrl.pathname) {
         case '/':
             res.end("HomePage");
             break;
@@ -50,7 +57,12 @@ function handleRequest(req, res) {
             res.end("About Page");
             break;
         case '/contacts':
-            res.end("Contacts Page");
+            const qp = myUrl.query.mynumber;
+            res.end(`Contact Us on : +91-${qp}`);
+            break;
+        case '/search':
+            const s = myUrl.query.search_query;
+            res.end(`Here are you results for `+s);
             break;
         default:
             res.writeHead(404);
