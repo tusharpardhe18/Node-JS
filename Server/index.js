@@ -8,6 +8,7 @@
 //     const log = `${Date.now()}: ${req.url} New Req Received\n`;
 
 //     fs.appendFile("log.txt", log, (err, data) => {
+
 //         switch (req.url) {
 //             case '/': res.end("HomePage");
 //                 break;
@@ -18,7 +19,6 @@
 //             default: res.end("404 Not Found")
 //                 break;
 //         }
-    
 //     } )
 // });
 
