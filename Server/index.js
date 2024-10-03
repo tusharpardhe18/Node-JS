@@ -31,14 +31,14 @@ const url = require('url');
 
 // Function to log requests
 function logRequest(req) {
-    const log = `${Date.now()}: ${req.url} New Req Received\n`;
+    const log = `${Date.now()}: ${req.method} ${req.url} New Req Received\n`;
     fs.appendFile("log.txt", log, (err) => {
         if (err) {
             console.error("Error logging request:", err);
             // Consider using a more robust logging mechanism
         }
     });
-}
+} 
 
 // Function to handle requests
 function handleRequest(req, res) {
@@ -49,10 +49,18 @@ function handleRequest(req, res) {
 
     switch (myUrl.pathname) {
         case '/':
-            res.end("HomePage");
+            if (req.method === "GET") res.end("HomePage");   
             break;
         case '/about':
-            res.end("About Page");
+            res.end("About Page")
+            
+            break;
+        case '/signup':
+            if (req.method === "GET") res.end("This is a signup page");
+            else if(req.method === "POST"){
+                // DB Query
+                res.end("Success")
+            }
             break;
         case '/contacts':
             const qp = myUrl.query.mynumber;
