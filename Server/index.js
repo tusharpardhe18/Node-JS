@@ -27,27 +27,25 @@
 
 const http = require('http');
 const fs = require('fs');
-const url = require('url')
+const url = require('url');
 
 // Function to log requests
 function logRequest(req) {
-
     const log = `${Date.now()}: ${req.url} New Req Received\n`;
-
     fs.appendFile("log.txt", log, (err) => {
         if (err) {
             console.error("Error logging request:", err);
+            // Consider using a more robust logging mechanism
         }
     });
 }
 
 // Function to handle requests
 function handleRequest(req, res) {
-
     logRequest(req);
 
     const myUrl = url.parse(req.url, true);
-    console.log(myUrl)
+    console.log(myUrl);
 
     switch (myUrl.pathname) {
         case '/':
@@ -58,11 +56,19 @@ function handleRequest(req, res) {
             break;
         case '/contacts':
             const qp = myUrl.query.mynumber;
-            res.end(`Contact Us on : +91-${qp}`);
+            if (qp) {
+                res.end(`Contact Us on : +91-${qp}`);
+            } else {
+                res.end("No contact number provided");
+            }
             break;
         case '/search':
             const s = myUrl.query.search_query;
-            res.end(`Here are you results for `+s);
+            if (s) {
+                res.end(`Here are your results for ${s}`);
+            } else {
+                res.end("No search query provided");
+            }
             break;
         default:
             res.writeHead(404);
